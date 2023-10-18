@@ -24,17 +24,12 @@ public abstract class AbstractBasePlanBuilder {
         this.producers = new ArrayList<>(producers);
         this.consumers = new ArrayList<>(consumers);
 
-        basePlan = new ArrayList<>(
-                Collections.nCopies(
-                        costs.size(),
-                        new ArrayList<>(
-                                Collections.nCopies(
-                                        costs.get(0).size(),
-                                        -1L
-                                )
-                        )
-                )
-        );
+        basePlan = new ArrayList<>();
+        for (int i = 0; i < costs.size(); i++) {
+            basePlan.add(new ArrayList<>(Collections.nCopies(
+                    costs.get(0).size(), -1L
+            )));
+        }
     }
 
     public abstract void buildBasePlan();

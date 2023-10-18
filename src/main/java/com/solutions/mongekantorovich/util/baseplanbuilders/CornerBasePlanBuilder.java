@@ -22,25 +22,26 @@ public class CornerBasePlanBuilder extends AbstractBasePlanBuilder {
     public void buildBasePlan() {
         int basicCells = 0;
 
-        int producer = 0;
-        int consumer = 0;
-        int total = producers.size() + consumers.size();
+        int producer = -1;
+        int consumer = -1;
+        int total = producers.size() + consumers.size()-2;
 
-        long producerValue = producers.get(producer);
-        long consumerValue = consumers.get(consumer);
+        long producerValue = 0;
+        long consumerValue = 0;
         for (; producer + consumer != total; basicCells++){
+            if (producerValue == 0)
+                producerValue = producers.get(++producer);
+            if (consumerValue == 0)
+                consumerValue = consumers.get(++consumer);
+
             long value = Math.min(
-                    producers.get(producer),
-                    consumers.get(consumer)
+                    producerValue,
+                    consumerValue
             );
             basePlan.get(producer).set(consumer, value);
 
             producerValue -= value;
             consumerValue -= value;
-            if (producerValue == 0)
-                producerValue = producers.get(++producer);
-            if (consumerValue == 0)
-                consumerValue = consumers.get(++consumer);
         }
 
         if (basicCells == basePlan.size() + basePlan.get(0).size() - 1)
