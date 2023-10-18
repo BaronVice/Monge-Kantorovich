@@ -1,5 +1,9 @@
 package com.solutions.mongekantorovich.util.handlers;
 
+import com.solutions.mongekantorovich.util.Method;
+import com.solutions.mongekantorovich.util.baseplanbuilders.AbstractBasePlanBuilder;
+import com.solutions.mongekantorovich.util.baseplanbuilders.CornerBasePlanBuilder;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +42,10 @@ public class ConditionHandler {
         return 0;
     }
 
-    private static void costsAppender(List<List<Long>> costs, boolean appendProducer){
+    private static void costsAppender(
+            List<List<Long>> costs,
+            boolean appendProducer
+    ){
         if (appendProducer){
             costs.add(new ArrayList<>(
                     Collections.nCopies(costs.get(0).size(), 0L))
@@ -50,5 +57,26 @@ public class ConditionHandler {
         for (List<Long> producer : costs) {
             producer.add(0L);
         }
+    }
+
+    public static AbstractBasePlanBuilder methodHandler(
+            List<Long> producers,
+            List<Long> consumers,
+            List<List<Long>> costs,
+            Method method
+    ){
+        AbstractBasePlanBuilder planBuilder;
+        switch (method){
+            case CORNER -> planBuilder = new CornerBasePlanBuilder(
+                    producers,
+                    consumers,
+                    costs
+            );
+            case FOGEL, MIN_COST -> throw new RuntimeException("Method is not implemented");
+            default -> throw new RuntimeException("Method does not exist");
+        }
+
+        planBuilder.buildBasePlan();
+        return planBuilder;
     }
 }

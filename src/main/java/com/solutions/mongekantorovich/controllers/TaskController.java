@@ -1,6 +1,7 @@
 package com.solutions.mongekantorovich.controllers;
 
 import com.solutions.mongekantorovich.dto.RequestDto;
+import com.solutions.mongekantorovich.dto.ResponseDto;
 import com.solutions.mongekantorovich.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class TaskController implements ITaskController {
 
     @Override
     @GetMapping
-    public ResponseEntity<?> solve(@RequestBody RequestDto requestDto) {
+    public ResponseEntity<ResponseDto> solve(@RequestBody RequestDto requestDto) {
         return taskService.solve(
                 requestDto.getProducers(),
                 requestDto.getConsumers(),

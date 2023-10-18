@@ -1,6 +1,7 @@
 package com.solutions.mongekantorovich.util.handlers;
 
 import com.solutions.mongekantorovich.dto.ResponseDto;
+import com.solutions.mongekantorovich.util.baseplanbuilders.AbstractBasePlanBuilder;
 
 public class ResponseDtoHandler {
     public static void setClosedStatus(ResponseDto responseDto, int status){
@@ -11,5 +12,13 @@ public class ResponseDtoHandler {
                     default -> "Closed";
                 }
         );
+    }
+
+    public static void setBasePlan(
+            ResponseDto responseDto,
+            AbstractBasePlanBuilder planBuilder
+    ) {
+        responseDto.setMnMinusOneCondition(planBuilder.isGood());
+        responseDto.setBasePlan(planBuilder.getBasePlan());
     }
 }

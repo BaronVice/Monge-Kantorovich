@@ -1,8 +1,8 @@
 package com.solutions.mongekantorovich.services;
 
-import com.solutions.mongekantorovich.dto.RequestDto;
 import com.solutions.mongekantorovich.dto.ResponseDto;
 import com.solutions.mongekantorovich.util.Method;
+import com.solutions.mongekantorovich.util.baseplanbuilders.AbstractBasePlanBuilder;
 import com.solutions.mongekantorovich.util.handlers.ConditionHandler;
 import com.solutions.mongekantorovich.util.handlers.ResponseDtoHandler;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class TaskService {
-    public ResponseEntity<?> solve(
+    public ResponseEntity<ResponseDto> solve(
             List<Long> producers,
             List<Long> consumers,
             List<List<Long>> costs,
@@ -23,19 +23,18 @@ public class TaskService {
         int closedStatus = ConditionHandler.handleProducersConsumers(
                 producers, consumers, costs
         );
+        AbstractBasePlanBuilder planBuilder = ConditionHandler.methodHandler(
+                producers, consumers, costs, method
+        );
+
+
         ResponseDtoHandler.setClosedStatus(
                 responseDto, closedStatus
         );
-
-
-
-        return ResponseEntity.ok(
-                new RequestDto(
-                        producers,
-                        consumers,
-                        costs,
-                        method
-                )
+        ResponseDtoHandler.setBasePlan(
+                responseDto, planBuilder
         );
+
+        return ResponseEntity.ok(responseDto);
     }
 }
