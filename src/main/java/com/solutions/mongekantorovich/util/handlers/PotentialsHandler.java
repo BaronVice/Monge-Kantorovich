@@ -3,10 +3,7 @@ package com.solutions.mongekantorovich.util.handlers;
 import com.solutions.mongekantorovich.util.Pair;
 import com.solutions.mongekantorovich.util.PotentialsSolution;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PotentialsHandler {
     public static List<PotentialsSolution> calculatePotentials(
@@ -15,8 +12,8 @@ public class PotentialsHandler {
             List<Pair> basicCells
     ){
         List<PotentialsSolution> potentialsSolutions = new ArrayList<>();
-        Map<Integer, List<Integer>> basicCellsProducerConsumers = new LinkedHashMap<>();
-        Map<Integer, List<Integer>> basicCellsConsumerProducers = new LinkedHashMap<>();
+        Map<Integer, Set<Integer>> basicCellsProducerConsumers = new LinkedHashMap<>();
+        Map<Integer, Set<Integer>> basicCellsConsumerProducers = new LinkedHashMap<>();
 
         buildMaps(
                 basicCells,
@@ -37,8 +34,8 @@ public class PotentialsHandler {
 
     private static void buildMaps(
             List<Pair> basicCells,
-            Map<Integer, List<Integer>> basicCellsProducerConsumers,
-            Map<Integer, List<Integer>> basicCellsConsumerProducers
+            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
+            Map<Integer, Set<Integer>> basicCellsConsumerProducers
     ){
         for (Pair cell : basicCells) {
             handleAdditionInMap(
@@ -57,12 +54,12 @@ public class PotentialsHandler {
     private static void handleAdditionInMap(
             Integer key,
             Integer value,
-            Map<Integer, List<Integer>> map
+            Map<Integer, Set<Integer>> map
     ){
         if (map.containsKey(key))
             map.get(key).add(value);
         else
-            map.put(key, new ArrayList<>(List.of(value)));
+            map.put(key, new LinkedHashSet<>(Set.of(value)));
     }
 
     private static void buildSolution(
