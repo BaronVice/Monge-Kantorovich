@@ -59,7 +59,7 @@ public class ConditionHandler {
         }
     }
 
-    public static AbstractBasePlanBuilder methodHandler(
+    public static AbstractBasePlanBuilder handleMethod(
             List<Long> producers,
             List<Long> consumers,
             List<List<Long>> costs,

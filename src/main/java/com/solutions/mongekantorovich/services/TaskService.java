@@ -2,8 +2,10 @@ package com.solutions.mongekantorovich.services;
 
 import com.solutions.mongekantorovich.dto.ResponseDto;
 import com.solutions.mongekantorovich.util.Method;
+import com.solutions.mongekantorovich.util.PotentialsSolution;
 import com.solutions.mongekantorovich.util.baseplanbuilders.AbstractBasePlanBuilder;
 import com.solutions.mongekantorovich.util.handlers.ConditionHandler;
+import com.solutions.mongekantorovich.util.handlers.PotentialsHandler;
 import com.solutions.mongekantorovich.util.handlers.ResponseDtoHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,11 @@ public class TaskService {
         int closedStatus = ConditionHandler.handleProducersConsumers(
                 producers, consumers, costs
         );
-        AbstractBasePlanBuilder planBuilder = ConditionHandler.methodHandler(
+        AbstractBasePlanBuilder planBuilder = ConditionHandler.handleMethod(
                 producers, consumers, costs, method
+        );
+        List<PotentialsSolution> potentialsCalculation = PotentialsHandler.calculatePotentials(
+                costs, planBuilder.getBasePlan(), planBuilder.getBasicCellsCoordinates()
         );
 
 
