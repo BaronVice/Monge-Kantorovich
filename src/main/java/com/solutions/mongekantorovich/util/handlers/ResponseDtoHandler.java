@@ -20,5 +20,6 @@ public class ResponseDtoHandler {
     ) {
         responseDto.setMnMinusOneCondition(planBuilder.isGood());
         responseDto.setBasePlan(planBuilder.getBasePlan());
+        responseDto.setBasicCellsCoordinates(planBuilder.getBasicCellsCoordinates());
     }
 }

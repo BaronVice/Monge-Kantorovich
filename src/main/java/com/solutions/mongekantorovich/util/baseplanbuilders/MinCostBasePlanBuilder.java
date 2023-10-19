@@ -20,8 +20,4 @@ public class MinCostBasePlanBuilder extends AbstractBasePlanBuilder {
 
     }
 
-    @Override
-    public void stabilize() {
-
-    }
 }

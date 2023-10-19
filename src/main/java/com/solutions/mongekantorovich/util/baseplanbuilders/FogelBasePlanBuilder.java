@@ -20,8 +20,4 @@ public class FogelBasePlanBuilder extends AbstractBasePlanBuilder {
 
     }
 
-    @Override
-    public void stabilize() {
-
-    }
 }

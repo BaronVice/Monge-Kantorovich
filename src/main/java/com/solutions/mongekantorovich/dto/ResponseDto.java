@@ -1,5 +1,6 @@
 package com.solutions.mongekantorovich.dto;
 
+import com.solutions.mongekantorovich.util.Pair;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +16,5 @@ public class ResponseDto {
     private String isClosed;
     private boolean mnMinusOneCondition;
     private List<List<Long>> basePlan;
+    private List<Pair> basicCellsCoordinates;
 }

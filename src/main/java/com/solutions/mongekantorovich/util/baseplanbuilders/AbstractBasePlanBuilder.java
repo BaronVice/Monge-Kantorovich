@@ -1,5 +1,6 @@
 package com.solutions.mongekantorovich.util.baseplanbuilders;
 
+import com.solutions.mongekantorovich.util.Pair;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public abstract class AbstractBasePlanBuilder {
     protected List<Long> producers;
     protected List<Long> consumers;
     protected List<List<Long>> basePlan;
+    protected List<Pair> basicCellsCoordinates;
     protected boolean isGood;
 
     public AbstractBasePlanBuilder(
@@ -21,6 +23,7 @@ public abstract class AbstractBasePlanBuilder {
             List<List<Long>> costs
     ){
         isGood = true;
+        basicCellsCoordinates = new ArrayList<>();
         this.producers = new ArrayList<>(producers);
         this.consumers = new ArrayList<>(consumers);
 
@@ -33,5 +36,4 @@ public abstract class AbstractBasePlanBuilder {
     }
 
     public abstract void buildBasePlan();
-    public abstract void stabilize();
 }
