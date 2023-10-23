@@ -1,7 +1,9 @@
 package com.solutions.mongekantorovich.util.handlers;
 
-import com.solutions.mongekantorovich.util.Pair;
-import com.solutions.mongekantorovich.util.PotentialsSolution;
+import com.solutions.mongekantorovich.util.actionproducing.BasicCellsMapBuilder;
+import com.solutions.mongekantorovich.util.actionproducing.PlanRedistributor;
+import com.solutions.mongekantorovich.util.containers.Pair;
+import com.solutions.mongekantorovich.util.containers.PotentialsSolution;
 
 import java.util.*;
 
@@ -12,10 +14,12 @@ public class PotentialsHandler {
             List<Pair> basicCells
     ){
         List<PotentialsSolution> potentialsSolutions = new ArrayList<>();
+        // TODO: I assume it can be replaced to List<List<Integer>>
+        //  (same memory usage as it's guaranteed every row and column has a cell, but better performance)
         Map<Integer, Set<Integer>> basicCellsProducerConsumers = new LinkedHashMap<>();
         Map<Integer, Set<Integer>> basicCellsConsumerProducers = new LinkedHashMap<>();
 
-        buildMaps(
+        BasicCellsMapBuilder.buildMaps(
                 basicCells,
                 basicCellsProducerConsumers,
                 basicCellsConsumerProducers
@@ -33,36 +37,6 @@ public class PotentialsHandler {
         return potentialsSolutions;
     }
 
-    private static void buildMaps(
-            List<Pair> basicCells,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
-    ){
-        for (Pair cell : basicCells) {
-            handleAdditionInMap(
-                    cell.producer(),
-                    cell.consumer(),
-                    basicCellsProducerConsumers
-            );
-            handleAdditionInMap(
-                    cell.consumer(),
-                    cell.producer(),
-                    basicCellsConsumerProducers
-            );
-        }
-    }
-
-    private static void handleAdditionInMap(
-            Integer key,
-            Integer value,
-            Map<Integer, Set<Integer>> map
-    ){
-        if (map.containsKey(key))
-            map.get(key).add(value);
-        else
-            map.put(key, new LinkedHashSet<>(Set.of(value)));
-    }
-
     private static void buildSolution(
             List<PotentialsSolution> potentialsSolutions,
             List<List<Long>> costs,
@@ -71,7 +45,9 @@ public class PotentialsHandler {
             Map<Integer, Set<Integer>> basicCellsProducerConsumers,
             Map<Integer, Set<Integer>> basicCellsConsumerProducers
     ){
-        PotentialsSolution solution = new PotentialsSolution(plan);
+        PotentialsSolution solution = new PotentialsSolution(plan, costs, basicCells);
+        potentialsSolutions.add(solution);
+
         solution.getU().set(0, 0L);
 
         dfsPotentials(
@@ -83,7 +59,30 @@ public class PotentialsHandler {
                 costs
         );
 
-        potentialsSolutions.add(solution);
+        Pair minCell = solution.applyPotentialsOnCosts();
+        if (minCell.consumer() == -1)
+            return;
+
+        PlanRedistributor redistributor = new PlanRedistributor();
+        List<List<Long>> newPlan = redistributor.redistribute(
+                minCell,
+                plan,
+                basicCells,
+                basicCellsProducerConsumers,
+                basicCellsConsumerProducers
+        );
+
+        buildSolution(
+                potentialsSolutions,
+                costs,
+                newPlan,
+                basicCells,
+                basicCellsProducerConsumers,
+                basicCellsConsumerProducers
+        );
+
+        // TODO: otherwise rebuild plan (and so basicCells will be changed as well as maps)
+        //  and call it again
     }
 
     private static void dfsPotentials(

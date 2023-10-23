@@ -1,7 +1,7 @@
 package com.solutions.mongekantorovich.util.handlers;
 
 import com.solutions.mongekantorovich.dto.ResponseDto;
-import com.solutions.mongekantorovich.util.PotentialsSolution;
+import com.solutions.mongekantorovich.util.containers.PotentialsSolution;
 import com.solutions.mongekantorovich.util.baseplanbuilders.AbstractBasePlanBuilder;
 
 import java.util.List;

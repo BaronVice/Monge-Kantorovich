@@ -1,6 +1,6 @@
 package com.solutions.mongekantorovich.util.baseplanbuilders;
 
-import com.solutions.mongekantorovich.util.Pair;
+import com.solutions.mongekantorovich.util.containers.Pair;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
