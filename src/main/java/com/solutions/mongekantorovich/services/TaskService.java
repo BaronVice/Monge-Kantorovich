@@ -28,7 +28,7 @@ public class TaskService {
         AbstractBasePlanBuilder planBuilder = ConditionHandler.handleMethod(
                 producers, consumers, costs, method
         );
-        List<PotentialsSolution> potentialsCalculation = PotentialsHandler.calculatePotentials(
+        List<PotentialsSolution> potentialsSolutions = PotentialsHandler.calculatePotentials(
                 costs, planBuilder.getBasePlan(), planBuilder.getBasicCellsCoordinates()
         );
 
@@ -38,6 +38,9 @@ public class TaskService {
         );
         ResponseDtoHandler.setBasePlan(
                 responseDto, planBuilder
+        );
+        ResponseDtoHandler.setPotentialSolutions(
+                responseDto, potentialsSolutions
         );
 
         return ResponseEntity.ok(responseDto);

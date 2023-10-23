@@ -21,12 +21,13 @@ public class PotentialsHandler {
                 basicCellsConsumerProducers
         );
 
-        // TODO: what args tho (put maps)?
         buildSolution(
                 potentialsSolutions,
                 costs,
                 plan,
-                basicCells
+                basicCells,
+                basicCellsProducerConsumers,
+                basicCellsConsumerProducers
         );
 
         return potentialsSolutions;
@@ -66,9 +67,71 @@ public class PotentialsHandler {
             List<PotentialsSolution> potentialsSolutions,
             List<List<Long>> costs,
             List<List<Long>> plan,
-            List<Pair> basicCells
+            List<Pair> basicCells,
+            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
+            Map<Integer, Set<Integer>> basicCellsConsumerProducers
     ){
         PotentialsSolution solution = new PotentialsSolution(plan);
         solution.getU().set(0, 0L);
+
+        dfsPotentials(
+                0,
+                true,
+                basicCellsProducerConsumers,
+                basicCellsConsumerProducers,
+                solution,
+                costs
+        );
+
+        potentialsSolutions.add(solution);
+    }
+
+    private static void dfsPotentials(
+            int potentialPosition,
+            boolean isPotentialProducer,
+            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
+            Map<Integer, Set<Integer>> basicCellsConsumerProducers,
+            PotentialsSolution solution,
+            List<List<Long>> costs
+    ) {
+        if (isPotentialProducer){
+            for (int consumer : basicCellsProducerConsumers.get(potentialPosition)){
+                if (solution.getV().get(consumer) == null){
+                    solution.getV().set(
+                            consumer,
+                            costs.get(potentialPosition).get(consumer) - solution.getU().get(potentialPosition)
+                    );
+
+                    dfsPotentials(
+                            consumer,
+                            false,
+                            basicCellsProducerConsumers,
+                            basicCellsConsumerProducers,
+                            solution,
+                            costs
+                    );
+                }
+            }
+        }
+
+        else {
+            for (int producer : basicCellsConsumerProducers.get(potentialPosition)){
+                if (solution.getU().get(producer) == null){
+                    solution.getU().set(
+                            producer,
+                            costs.get(producer).get(potentialPosition) - solution.getV().get(potentialPosition)
+                    );
+
+                    dfsPotentials(
+                            producer,
+                            true,
+                            basicCellsProducerConsumers,
+                            basicCellsConsumerProducers,
+                            solution,
+                            costs
+                    );
+                }
+            }
+        }
     }
 }

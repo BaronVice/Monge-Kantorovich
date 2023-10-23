@@ -1,6 +1,7 @@
 package com.solutions.mongekantorovich.dto;
 
 import com.solutions.mongekantorovich.util.Pair;
+import com.solutions.mongekantorovich.util.PotentialsSolution;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,5 @@ public class ResponseDto {
     private boolean mnMinusOneCondition;
     private List<List<Long>> basePlan;
     private List<Pair> basicCellsCoordinates;
+    private List<PotentialsSolution> potentialsSolutions;
 }

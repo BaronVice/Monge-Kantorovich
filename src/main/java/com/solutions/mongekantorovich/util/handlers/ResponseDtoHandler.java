@@ -1,7 +1,10 @@
 package com.solutions.mongekantorovich.util.handlers;
 
 import com.solutions.mongekantorovich.dto.ResponseDto;
+import com.solutions.mongekantorovich.util.PotentialsSolution;
 import com.solutions.mongekantorovich.util.baseplanbuilders.AbstractBasePlanBuilder;
+
+import java.util.List;
 
 public class ResponseDtoHandler {
     public static void setClosedStatus(ResponseDto responseDto, int status){
@@ -21,5 +24,12 @@ public class ResponseDtoHandler {
         responseDto.setMnMinusOneCondition(planBuilder.isGood());
         responseDto.setBasePlan(planBuilder.getBasePlan());
         responseDto.setBasicCellsCoordinates(planBuilder.getBasicCellsCoordinates());
+    }
+
+    public static void setPotentialSolutions(
+            ResponseDto responseDto,
+            List<PotentialsSolution> potentialsSolutions
+    ) {
+        responseDto.setPotentialsSolutions(potentialsSolutions);
     }
 }

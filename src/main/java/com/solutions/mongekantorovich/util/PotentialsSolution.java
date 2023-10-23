@@ -20,8 +20,10 @@ public class PotentialsSolution {
     ){
         this.plan = plan;
 
-        u = new ArrayList<>(Collections.nCopies(plan.size(), Long.MAX_VALUE));
-        v = new ArrayList<>(Collections.nCopies(plan.get(0).size(), Long.MAX_VALUE));
+        u = new ArrayList<>(Collections.nCopies(plan.size(), null));
+        v = new ArrayList<>(Collections.nCopies(plan.get(0).size(), null));
+
+        tablePotentials = new ArrayList<>();
         for (int i = 0; i < plan.size(); i++) {
             tablePotentials.add(
                     new ArrayList<>(Collections.nCopies(plan.get(0).size(), 0L))
