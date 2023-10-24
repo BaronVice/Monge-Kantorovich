@@ -115,9 +115,6 @@ public class PlanRedistributor {
                 basicCellsProducerConsumers,
                 basicCellsConsumerProducers
         );
-
-        if (cycle.size() % 2 != 0)
-            throw new RuntimeException("Odd size of cycle (can't handle it now)");
     }
 
 
