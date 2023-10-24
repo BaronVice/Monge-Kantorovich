@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -23,7 +24,7 @@ public abstract class AbstractBasePlanBuilder {
             List<List<Long>> costs
     ){
         isGood = true;
-        basicCellsCoordinates = new ArrayList<>();
+        basicCellsCoordinates = new LinkedList<>();
         this.producers = new ArrayList<>(producers);
         this.consumers = new ArrayList<>(consumers);
 
