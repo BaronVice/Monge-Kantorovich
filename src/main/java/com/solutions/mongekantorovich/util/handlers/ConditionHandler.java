@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Utility class to handle special conditions
+ */
 public class ConditionHandler {
 
     /**
@@ -42,6 +45,11 @@ public class ConditionHandler {
         return 0;
     }
 
+    /**
+     * Append additional producer/consumer in costs table
+     * @param costs table of costs
+     * @param appendProducer if true - append producer, otherwise append consumer
+     */
     private static void costsAppender(
             List<List<Long>> costs,
             boolean appendProducer
@@ -59,6 +67,14 @@ public class ConditionHandler {
         }
     }
 
+    /**
+     * Build base plan using one of the methods
+     * @param producers list of producers
+     * @param consumers list of consumers
+     * @param costs table of costs
+     * @param method given {@link Method method}
+     * @return base plan
+     */
     public static AbstractBasePlanBuilder handleMethod(
             List<Long> producers,
             List<Long> consumers,

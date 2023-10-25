@@ -20,8 +20,6 @@ public class TaskService {
             List<List<Long>> costs,
             Method method
     ) {
-        ResponseDto responseDto = new ResponseDto();
-
         int closedStatus = ConditionHandler.handleProducersConsumers(
                 producers, consumers, costs
         );
@@ -32,17 +30,8 @@ public class TaskService {
                 costs, planBuilder.getBasePlan(), planBuilder.getBasicCellsCoordinates()
         );
 
-
-        ResponseDtoHandler.setClosedStatus(
-                responseDto, closedStatus
+        return ResponseEntity.ok(
+                ResponseDtoHandler.formResponse(closedStatus, planBuilder, potentialsSolutions)
         );
-        ResponseDtoHandler.setBasePlan(
-                responseDto, planBuilder
-        );
-        ResponseDtoHandler.setPotentialSolutions(
-                responseDto, potentialsSolutions
-        );
-
-        return ResponseEntity.ok(responseDto);
     }
 }

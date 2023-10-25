@@ -80,9 +80,6 @@ public class PotentialsHandler {
                 basicCellsProducerConsumers,
                 basicCellsConsumerProducers
         );
-
-        // TODO: otherwise rebuild plan (and so basicCells will be changed as well as maps)
-        //  and call it again
     }
 
     private static void dfsPotentials(

@@ -14,7 +14,7 @@ public class PotentialsSolution {
     private List<Long> v;
     private List<List<Long>> plan;
     private List<List<Long>> tablePotentials;
-    private int cost;
+    private long cost;
 
     public PotentialsSolution(
             List<List<Long>> plan,
