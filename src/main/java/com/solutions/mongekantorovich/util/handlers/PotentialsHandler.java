@@ -1,6 +1,6 @@
 package com.solutions.mongekantorovich.util.handlers;
 
-import com.solutions.mongekantorovich.util.actionproducing.BasicCellsMapBuilder;
+import com.solutions.mongekantorovich.util.actionproducing.BasicCellsArrayBuilder;
 import com.solutions.mongekantorovich.util.actionproducing.PlanRedistributor;
 import com.solutions.mongekantorovich.util.containers.Pair;
 import com.solutions.mongekantorovich.util.containers.PotentialsSolution;
@@ -14,13 +14,13 @@ public class PotentialsHandler {
             List<Pair> basicCells
     ){
         List<PotentialsSolution> potentialsSolutions = new ArrayList<>();
-        // TODO: I assume it can be replaced to List<List<Integer>>
-        //  (same memory usage as it's guaranteed every row and column has a cell, but better performance)
-        Map<Integer, Set<Integer>> basicCellsProducerConsumers = new LinkedHashMap<>();
-        Map<Integer, Set<Integer>> basicCellsConsumerProducers = new LinkedHashMap<>();
+        List<Set<Integer>> basicCellsProducerConsumers = new ArrayList<>();
+        List<Set<Integer>> basicCellsConsumerProducers = new ArrayList<>();
 
-        BasicCellsMapBuilder.buildMaps(
+        BasicCellsArrayBuilder.buildArrays(
                 basicCells,
+                plan.size(),
+                plan.get(0).size(),
                 basicCellsProducerConsumers,
                 basicCellsConsumerProducers
         );
@@ -42,8 +42,8 @@ public class PotentialsHandler {
             List<List<Long>> costs,
             List<List<Long>> plan,
             List<Pair> basicCells,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ){
         PotentialsSolution solution = new PotentialsSolution(plan, costs, basicCells);
         potentialsSolutions.add(solution);
@@ -85,8 +85,8 @@ public class PotentialsHandler {
     private static void dfsPotentials(
             int potentialPosition,
             boolean isPotentialProducer,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers,
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers,
             PotentialsSolution solution,
             List<List<Long>> costs
     ) {
@@ -111,8 +111,8 @@ public class PotentialsHandler {
 
     private static void dfsPotentialProducer(
             int potentialPosition,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers,
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers,
             PotentialsSolution solution,
             List<List<Long>> costs
     ){
@@ -135,8 +135,8 @@ public class PotentialsHandler {
 
     private static void dfsPotentialConsumer(
             int potentialPosition,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers,
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers,
             PotentialsSolution solution,
             List<List<Long>> costs
     ){

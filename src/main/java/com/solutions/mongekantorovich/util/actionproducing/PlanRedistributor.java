@@ -6,7 +6,7 @@ import java.util.*;
 
 public class PlanRedistributor {
     private boolean isFound;
-    private List<Pair> cycle;
+    private final List<Pair> cycle;
 
     public PlanRedistributor() {
         cycle = new ArrayList<>();
@@ -16,8 +16,8 @@ public class PlanRedistributor {
             Pair minCell,
             List<List<Long>> plan,
             List<Pair> basicCells,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ) {
 
         findCycle(
@@ -38,8 +38,8 @@ public class PlanRedistributor {
     private List<List<Long>> buildNewPlan(
             List<List<Long>> plan,
             List<Pair> basicCells,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ) {
         List<List<Long>> newPlan = new ArrayList<>(plan);
 
@@ -82,8 +82,8 @@ public class PlanRedistributor {
             List<List<Long>> newPlan,
             Pair toRemove,
             List<Pair> basicCells,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ) {
         Pair minCell = cycle.get(0);
         long minCellValue = newPlan.get(minCell.producer()).get(minCell.consumer()) + 1;
@@ -99,8 +99,8 @@ public class PlanRedistributor {
     private void findCycle(
             Pair minCell,
             List<Pair> basicCells,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ){
         addCell(
                 minCell,
@@ -121,8 +121,8 @@ public class PlanRedistributor {
     private void addCell(
             Pair minCell,
             List<Pair> basicCells,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ) {
         basicCells.add(minCell);
         basicCellsProducerConsumers.get(minCell.producer()).add(minCell.consumer());
@@ -131,8 +131,8 @@ public class PlanRedistributor {
 
     private void launchDfs(
             Pair minCell,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ) {
         for (int consumer : basicCellsProducerConsumers.get(minCell.producer())) if (consumer != minCell.consumer()){
             dfsCycle(
@@ -158,8 +158,8 @@ public class PlanRedistributor {
             int visitedProducer,
             int visitedConsumer,
             boolean checkProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ) {
         if (visitedProducer == cycle.get(0).producer() && visitedConsumer == cycle.get(0).consumer())
             isFound = true;
@@ -193,8 +193,8 @@ public class PlanRedistributor {
     private void dfsCycleProducersConsumers(
             int visitedProducer,
             int visitedConsumer,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ) {
         for (int consumer : basicCellsProducerConsumers.get(visitedProducer))
             if (consumer != visitedConsumer) {
@@ -211,8 +211,8 @@ public class PlanRedistributor {
     private void dfsCycleConsumerProducers(
             int visitedProducer,
             int visitedConsumer,
-            Map<Integer, Set<Integer>> basicCellsProducerConsumers,
-            Map<Integer, Set<Integer>> basicCellsConsumerProducers
+            List<Set<Integer>> basicCellsProducerConsumers,
+            List<Set<Integer>> basicCellsConsumerProducers
     ) {
         for (int producer : basicCellsConsumerProducers.get(visitedConsumer))
             if (producer != visitedProducer) {
